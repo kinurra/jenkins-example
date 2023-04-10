@@ -3,7 +3,7 @@
 pipeline {
 
   agent any
-  //triggers { pollSCM  '* * * * *' }
+ triggers { pollSCM  '* * * * *' }
 
   environment {
     git_commit_message = ''
@@ -70,7 +70,7 @@ pipeline {
         sh "echo 'Run Acceptance Tests'"
         sh "docker push kinurra/node-app:$BUILD_NUMBER"
         sh "docker rmi -f kinurra/node-app:$BUILD_NUMBER"
-        sh "cd node/ && kubectl apply -f my-node.yaml"
+        sh "cd node/ && kubectl apply -f ingress-controller-load-balancer.yaml && kubectl apply -f my-node.yaml"
         sh "cd && ls"
       }
     }
